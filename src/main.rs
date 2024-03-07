@@ -80,7 +80,7 @@ impl fmt::Debug for Sudoku {
 fn solve(sudoku: Sudoku) -> Option<Sudoku> {
     match find_next_empty_cell(&sudoku) {
         Some((x, y)) => {
-            for num in valid_numbers(&sudoku, x, y) {
+            for num in find_valid_numbers(&sudoku, x, y) {
                 let mut new_sudoku = sudoku.clone();
                 new_sudoku.set(x, y, num);
                 if let Some(solved) = solve(new_sudoku) {
@@ -104,7 +104,7 @@ fn find_next_empty_cell(sudoku: &Sudoku) -> Option<(usize, usize)> {
     None
 }
 
-fn valid_numbers(sudoku: &Sudoku, x: usize, y: usize) -> Vec<u8> {
+fn find_valid_numbers(sudoku: &Sudoku, x: usize, y: usize) -> Vec<u8> {
     let row = sudoku.get_row(y);
     let col = sudoku.get_column(x);
     let reg = sudoku.get_region_of(x, y);
@@ -115,5 +115,5 @@ fn valid_numbers(sudoku: &Sudoku, x: usize, y: usize) -> Vec<u8> {
 
 fn main() {
     let sudoku = Sudoku::new();
-    println!("{}", solve(sudoku).unwrap());
+    dbg!(solve(sudoku));    
 }
